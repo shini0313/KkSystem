@@ -14,12 +14,12 @@ import kksystem.service.ProductService;
  *
  * @author shini
  */
-public class ProdectJFrame extends javax.swing.JFrame {
+public class ProductJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
-    public ProdectJFrame() {
+    public ProductJFrame() {
         initComponents();
         getProductInfo();
     }
@@ -27,16 +27,20 @@ public class ProdectJFrame extends javax.swing.JFrame {
     /**
      * 初期化
      */
-    public void getProductInfo(){
-        
-        
-        
-        
+    public void getProductInfo() {
+
+        ProductService productService = new ProductService();
+        List<Product> list = productService.getProductInfoList();
+
+        DefaultTableModel defaultModel = (DefaultTableModel) jTable1.getModel();
+        defaultModel.setRowCount(0);
+        for (Product p : list) {
+            defaultModel.addRow(new Object[]{p.getProductId(), p.getProductname(), p.getPrice(), p.getQuantity()});
+
+        }
+
     }
-    
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -175,7 +179,7 @@ public class ProdectJFrame extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -214,9 +218,9 @@ public class ProdectJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -224,17 +228,48 @@ public class ProdectJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+ 
+        String id = jLabel1.getText();
+        String name = jTextField1.getText();
+        String price = jTextField2.getText();
+        String quantity = jTextField3.getText();
+
+        Product p = new Product();
+
+        p.setProductid(Integer.valueOf(id));
+        p.setProductname(name);
+        p.setPrice(Integer.valueOf(price));
+        p.setQuantity(Integer.valueOf(quantity));
+
+        ProductService productService = new ProductService();
+        productService.deleteProductInfo(p);
+        getProductInfo();
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String id = jLabel1.getText();
+        String name = jTextField1.getText();
+        String price = jTextField2.getText();
+        String quantity = jTextField3.getText();
+
+        Product p = new Product();
+
+        p.setProductid(Integer.valueOf(id));
+        p.setProductname(name);
+        p.setPrice(Integer.valueOf(price));
+        p.setQuantity(Integer.valueOf(quantity));
+
+        ProductService productService = new ProductService();
+        productService.updateProductInfo(p);
+        getProductInfo();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
 
-//        String id = jLabel5.getText();
         String name = jTextField1.getText();
         String price = jTextField2.getText();
         String quantity = jTextField3.getText();
@@ -244,24 +279,30 @@ public class ProdectJFrame extends javax.swing.JFrame {
         kk.setProductname(name);
         kk.setPrice(Integer.valueOf(price));
         kk.setQuantity(Integer.valueOf(quantity));
-        
-        DefaultTableModel defaultModel = (DefaultTableModel) jTable1.getModel();
-        defaultModel.setRowCount(0);
-       
-            defaultModel.addRow(new Object[]{kk.getProductId(),kk.getProductname(),kk.getPrice(),kk.getQuantity()});
 
-        
-       
- 
         ProductService productService = new ProductService();
         productService.insertProductInfo(kk);
+
+        getProductInfo();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-   
-    
+        DefaultTableModel defaultModel = (DefaultTableModel) jTable1.getModel();
+
+        defaultModel.getRowCount();
+        int row = jTable1.getSelectedRow();
+        System.out.println(row);
+        String name = defaultModel.getValueAt(row, 1).toString();
+        System.out.println(name);
+
+        jLabel1.setText(defaultModel.getValueAt(row, 0).toString());
+        jTextField1.setText(defaultModel.getValueAt(row, 1).toString());
+        jTextField2.setText(defaultModel.getValueAt(row, 2).toString());
+        jTextField3.setText(defaultModel.getValueAt(row, 3).toString());
+
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
@@ -281,21 +322,23 @@ public class ProdectJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProdectJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProdectJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProdectJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProdectJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProdectJFrame().setVisible(true);
+                new ProductJFrame().setVisible(true);
             }
         });
     }

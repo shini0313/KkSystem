@@ -5,6 +5,7 @@
  */
 package kksystem.service;
 
+import java.util.List;
 import kksystem.dao.ProductDao;
 
 /**
@@ -21,4 +22,27 @@ public class ProductService {
 
     }
 
+    public List<Product> getProductInfoList() {
+
+        ProductDao seisekiDao = new ProductDao();
+
+        List<Product> list = seisekiDao.getProductInfoList();
+
+        return list;
+    }
+
+    public void updateProductInfo(Product kk) {
+
+        ProductDao productDao = new ProductDao();
+
+        productDao.updateProductInfo(kk);
+
+    }
+
+    public void deleteProductInfo(Product kk) {
+
+        ProductDao productDao = new ProductDao();
+
+        productDao.deleteProductInfo(kk);
+    }
 }
