@@ -45,4 +45,22 @@ public class ProductService {
 
         productDao.deleteProductInfo(kk);
     }
+
+    public Product getProductInfo(long productId) {
+
+        ProductDao productDao = new ProductDao();
+
+        Product p = productDao.getProductInfo(productId);
+
+        return p;
+
+    }
+    
+     public void insertOrderInfo(Product o) {
+
+        ProductDao productDao = new ProductDao();
+
+        productDao.insertOrderInfo(o);
+
+    }
 }

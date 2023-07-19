@@ -8,6 +8,7 @@ package kksystem.dao;
 import kksystem.service.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -137,5 +138,69 @@ public class ProductDao {
     public void updateSeisekiData(JTextField jTextField2, JTextField jTextField3, JTextField jTextField4, JTextField jTextField5, JTextField jTextField6) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public Product getProductInfo(long productId) {
+
+        Product p = new Product();
+
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+
+            stmt = conn.createStatement();
+
+            String sql = "SELECT * FROM product WHERE product_id = " + productId;
+            
+            rset = stmt.executeQuery(sql);
+
+            while (rset.next()) {
+
+                p.setProductid(rset.getInt(1));
+                p.setProductname(rset.getString(2));
+                p.setPrice(rset.getInt(3));
+                p.setQuantity(rset.getInt(4));
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return p;
+
+    }
+     public void insertOrderInfo(Product o) {
+
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+            stmt = conn.createStatement();
+
+            String getSql = "SELECT NEXTVAL('seq_orderid')";
+            rset = stmt.executeQuery(getSql);
+
+            int seq = 0;
+            while (rset.next()) {
+                System.out.println(rset.getString(1));
+                seq = Integer.valueOf(rset.getString(1));
+
+            }
+  
+            LocalDateTime systemDate = LocalDateTime.now();
+
+            String sql = "INSERT INTO orders(orderid,productid, productname, price, quantity,totalamount,purchases,create_date,update_date) \n"
+                    + "VALUES (" + seq + ","+o.getProductId()+", '" + o.getProductname() + "', " + o.getPrice() + ", " + o.getQuantity() + ", '" + o.getTotalAmount() + "',"+o.getPurchases()+",'" + systemDate + "' ,'" + systemDate + "')";
+
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
+
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
+    
+
 
 }
