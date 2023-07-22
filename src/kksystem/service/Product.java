@@ -13,6 +13,9 @@ public class Product {
 
     private int productId;
 
+    private int orderId;
+
+
     private String productName;
 
     private float price;
@@ -22,6 +25,11 @@ public class Product {
     private int totalAmount;
 
     private int purchases;
+    
+     private int productid;
+ 
+  
+
 
     public int getProductId() {
         return productId;
@@ -71,6 +79,12 @@ public class Product {
         this.purchases = purchases;
     }
 
-    
+    public int getOrderId() {
+        return orderId;
+    }
 
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+    
 }

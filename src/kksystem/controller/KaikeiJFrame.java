@@ -5,6 +5,7 @@
  */
 package kksystem.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import kksystem.service.Product;
@@ -37,6 +38,37 @@ public class KaikeiJFrame extends javax.swing.JFrame {
             defaultModel.addRow(new Object[]{p.getProductId(), p.getProductname()});
 
         }
+
+    }
+
+    private List<Product> getProductList() {
+        List<Product> productList = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object id = model.getValueAt(i, 0);
+            Object name = model.getValueAt(i, 1);
+            Object price = model.getValueAt(i, 2);
+            Object quantity = model.getValueAt(i, 3);
+
+            int productId = (int) id;
+            String productName = (String) name;
+            float productPrice = (float) price;
+            int productQuantity = (int) quantity;
+
+            Product o = new Product();
+           
+            o.setProductid(productId);
+            o.setProductname(productName);
+            o.setPrice(productPrice);
+            o.setQuantity(productQuantity);
+
+            productList.add(o);
+        }
+
+       
+        return productList;
     }
 
     /**
@@ -307,7 +339,7 @@ public class KaikeiJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1PropertyChange
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+
         try {
             float value1 = Float.parseFloat(jTextField1.getText());
             float value2 = Float.parseFloat(jTextField2.getText());
@@ -317,26 +349,12 @@ public class KaikeiJFrame extends javax.swing.JFrame {
             jTextField3.setText("");
         }
 
-         int rowCount = jTable1.getRowCount();
+      List<Product> productList = getProductList();
 
-    
-    for (int i = 0; i < rowCount; i++) {
-        Object id = jTable1.getValueAt(i, 0);
-        Object name = jTable1.getValueAt(i, 1);
-        Object price = jTable1.getValueAt(i, 2);
-        Object quantity = jTable1.getValueAt(i, 3);
-
-        Product o = new Product();
-        o.setProductid((int) id);
-        o.setProductname((String) name);
-        o.setPrice((float) price);
-        o.setQuantity((int) quantity);
-
-      
-        ProductService productService = new ProductService();
-        productService.insertOrderInfo(o);
+    ProductService productService = new ProductService();
+    for (Product product : productList) {
+        productService.insertOrderInfo(product);
     }
-
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -361,16 +379,21 @@ public class KaikeiJFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(KaikeiJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KaikeiJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(KaikeiJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KaikeiJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(KaikeiJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KaikeiJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(KaikeiJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KaikeiJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

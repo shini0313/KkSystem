@@ -5,6 +5,11 @@
  */
 package kksystem.controller;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import kksystem.service.Product;
+import kksystem.service.ProductService;
+
 /**
  *
  * @author shini
@@ -16,7 +21,13 @@ public class OrderJFrame extends javax.swing.JFrame {
      */
     public OrderJFrame() {
         initComponents();
+        getProductInfo();
     }
+    
+      public void getProductInfo() {
+
+
+      }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,11 +48,11 @@ public class OrderJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "オーダーID", "商品ID", "商品名", "単価", "商品数", "総価格", "購入回数", "登録時間", "更新時間"
+                "オーダーID", "商品ID", "商品名", "単価", "商品数", "総価格", "登録時間", "更新時間"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

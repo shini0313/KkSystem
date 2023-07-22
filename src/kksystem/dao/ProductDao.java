@@ -149,7 +149,7 @@ public class ProductDao {
             stmt = conn.createStatement();
 
             String sql = "SELECT * FROM product WHERE product_id = " + productId;
-            
+
             rset = stmt.executeQuery(sql);
 
             while (rset.next()) {
@@ -168,26 +168,29 @@ public class ProductDao {
         return p;
 
     }
-     public void insertOrderInfo(Product o) {
+
+    public void insertOrderInfo(Product o) {
 
         try {
             conn = DriverManager.getConnection(url, user, password);
             stmt = conn.createStatement();
-
-            String getSql = "SELECT NEXTVAL('seq_orderid')";
+            conn = DriverManager.getConnection(url, user, password);
+            stmt = conn.createStatement();
+            
+                String getSql = "SELECT NEXTVAL('seq_order_id')";
             rset = stmt.executeQuery(getSql);
 
             int seq = 0;
-            while (rset.next()) {
-                System.out.println(rset.getString(1));
-                seq = Integer.valueOf(rset.getString(1));
+        if (rset.next()) {
+            seq = rset.getInt(1);
+        }
 
-            }
-  
+            int total_amount = (int) (o.getQuantity() * o.getPrice());
+
             LocalDateTime systemDate = LocalDateTime.now();
 
-            String sql = "INSERT INTO orders(orderid,productid, productname, price, quantity,totalamount,purchases,create_date,update_date) \n"
-                    + "VALUES (" + seq + ","+o.getProductId()+", '" + o.getProductname() + "', " + o.getPrice() + ", " + o.getQuantity() + ", '" + o.getTotalAmount() + "',"+o.getPurchases()+",'" + systemDate + "' ,'" + systemDate + "')";
+            String sql = "INSERT INTO orders(order_id,product_id,product_name, price, quantity,total_amount,create_date,update_date) \n"
+                    + "VALUES ("+seq+"," + o.getProductId() + ", '" + o.getProductname() + "', " + o.getPrice() + ", " + o.getQuantity() + "," + total_amount + ",'" + systemDate + "' ,'" + systemDate + "')";
 
             System.out.println(sql);
             stmt.executeUpdate(sql);
@@ -200,7 +203,38 @@ public class ProductDao {
 
         }
     }
-    
 
 
+    public List<Product> getOrderInfoList() {
+
+        List<Product> list = new ArrayList<>();
+
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+
+            stmt = conn.createStatement();
+
+            String sql = "select * from orders order by order_id asc";
+
+            rset = stmt.executeQuery(sql);
+
+            if (rset.next()) {
+                Product o = new Product();
+                o.setOrderId(rset.getInt("order_id"));
+                o.setProductid(rset.getInt("product_id"));
+                o.setProductname(rset.getString("product_name"));
+                o.setPrice(rset.getInt("price"));
+                o.setQuantity(rset.getInt("quantity"));
+                o.setTotalAmount(rset.getInt("total_amount"));
+
+                list.add(o);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+
+    }
 }

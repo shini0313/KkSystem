@@ -55,12 +55,13 @@ public class ProductService {
         return p;
 
     }
-    
-     public void insertOrderInfo(Product o) {
+
+    public void insertOrderInfo(Product o) {
 
         ProductDao productDao = new ProductDao();
 
         productDao.insertOrderInfo(o);
 
     }
+
 }
