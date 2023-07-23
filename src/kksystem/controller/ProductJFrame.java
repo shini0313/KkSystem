@@ -35,7 +35,7 @@ public class ProductJFrame extends javax.swing.JFrame {
         DefaultTableModel defaultModel = (DefaultTableModel) jTable1.getModel();
         defaultModel.setRowCount(0);
         for (Product p : list) {
-            defaultModel.addRow(new Object[]{p.getProductId(), p.getProductname(), p.getPrice(), p.getQuantity()});
+            defaultModel.addRow(new Object[]{p.getProductId(), p.getProductName(), p.getPrice(), p.getQuantity()});
 
         }
 
@@ -244,8 +244,8 @@ public class ProductJFrame extends javax.swing.JFrame {
 
         Product p = new Product();
 
-        p.setProductid(Integer.valueOf(id));
-        p.setProductname(name);
+        p.setProductId(Integer.valueOf(id));
+        p.setProductName(name);
         p.setPrice(Float.valueOf(price));
         p.setQuantity(Integer.valueOf(quantity));
 
@@ -265,8 +265,8 @@ public class ProductJFrame extends javax.swing.JFrame {
 
         Product p = new Product();
 
-        p.setProductid(Integer.valueOf(id));
-        p.setProductname(name);
+        p.setProductId(Integer.valueOf(id));
+        p.setProductName(name);
         p.setPrice(Integer.valueOf(price));
         p.setQuantity(Integer.valueOf(quantity));
 
@@ -284,7 +284,7 @@ public class ProductJFrame extends javax.swing.JFrame {
 
         Product kk = new Product();
 
-        kk.setProductname(name);
+        kk.setProductName(name);
         kk.setPrice(Integer.valueOf(price));
         kk.setQuantity(Integer.valueOf(quantity));
 

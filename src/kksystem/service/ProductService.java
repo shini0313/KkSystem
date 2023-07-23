@@ -24,9 +24,9 @@ public class ProductService {
 
     public List<Product> getProductInfoList() {
 
-        ProductDao seisekiDao = new ProductDao();
+        ProductDao productDao = new ProductDao();
 
-        List<Product> list = seisekiDao.getProductInfoList();
+        List<Product> list = productDao.getProductInfoList();
 
         return list;
     }
@@ -56,12 +56,23 @@ public class ProductService {
 
     }
 
-    public void insertOrderInfo(Product o) {
+    public void insertOrderInfo(List<Order> orderList ) {
 
         ProductDao productDao = new ProductDao();
 
-        productDao.insertOrderInfo(o);
+        productDao.insertOrderInfo(orderList);
 
     }
+    
+      public List<Order> getOrderInfoList() {
+
+        ProductDao orderDao = new ProductDao();
+
+        List<Order> list = orderDao.getOrderInfoList();
+
+        return list;
+    }
+
+   
 
 }

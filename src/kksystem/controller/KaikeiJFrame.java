@@ -8,6 +8,7 @@ package kksystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import kksystem.service.Order;
 import kksystem.service.Product;
 import kksystem.service.ProductService;
 
@@ -35,40 +36,31 @@ public class KaikeiJFrame extends javax.swing.JFrame {
 
         for (Product p : list) {
 
-            defaultModel.addRow(new Object[]{p.getProductId(), p.getProductname()});
+            defaultModel.addRow(new Object[]{p.getProductId(), p.getProductName()});
 
         }
 
     }
 
-    private List<Product> getProductList() {
-        List<Product> productList = new ArrayList<>();
+    private List<Order> getOrderList() {
+
+        List<Order> orderList = new ArrayList<>();
+
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-
         for (int i = 0; i < model.getRowCount(); i++) {
-            Object id = model.getValueAt(i, 0);
-            Object name = model.getValueAt(i, 1);
-            Object price = model.getValueAt(i, 2);
-            Object quantity = model.getValueAt(i, 3);
 
-            int productId = (int) id;
-            String productName = (String) name;
-            float productPrice = (float) price;
-            int productQuantity = (int) quantity;
+            Order order = new Order();
 
-            Product o = new Product();
-           
-            o.setProductid(productId);
-            o.setProductname(productName);
-            o.setPrice(productPrice);
-            o.setQuantity(productQuantity);
+            order.setProductId(Integer.parseInt(model.getValueAt(i, 0).toString()));
+            order.setProductName((model.getValueAt(i, 1).toString()));
+            order.setPrice(Float.parseFloat(model.getValueAt(i, 2).toString()));
+            order.setQuantity(Integer.parseInt(model.getValueAt(i, 3).toString()));
 
-            productList.add(o);
+            orderList.add(order);
         }
 
-       
-        return productList;
+        return orderList;
     }
 
     /**
@@ -289,7 +281,7 @@ public class KaikeiJFrame extends javax.swing.JFrame {
 
         DefaultTableModel defaultModel1 = (DefaultTableModel) jTable1.getModel();
 
-        defaultModel1.addRow(new Object[]{p.getProductId(), p.getProductname(), p.getPrice(), 1});
+        defaultModel1.addRow(new Object[]{p.getProductId(), p.getProductName(), p.getPrice(), 1});
 
 
     }//GEN-LAST:event_jTable2MouseClicked
@@ -349,12 +341,14 @@ public class KaikeiJFrame extends javax.swing.JFrame {
             jTextField3.setText("");
         }
 
-      List<Product> productList = getProductList();
+        List<Order> orderList = getOrderList();
 
-    ProductService productService = new ProductService();
-    for (Product product : productList) {
-        productService.insertOrderInfo(product);
-    }
+        ProductService productService = new ProductService();
+        
+            productService.insertOrderInfo(orderList);
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
 
     }//GEN-LAST:event_jButton4ActionPerformed
 

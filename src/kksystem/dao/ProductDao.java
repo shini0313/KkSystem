@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
 import kksystem.controller.ProductJFrame;
+import kksystem.service.Order;
 
 /**
  *
@@ -53,7 +54,7 @@ public class ProductDao {
             LocalDateTime systemDate = LocalDateTime.now();
 
             String sql = "INSERT INTO product(product_id, product_name, price, quantity,purchases,delete_flag,create_date,update_date) \n"
-                    + "VALUES (" + seq + ", '" + p.getProductname() + "', " + p.getPrice() + ", " + p.getQuantity() + "," + p.getQuantity() + " , '" + 0 + "','" + systemDate + "' ,'" + systemDate + "')";
+                    + "VALUES (" + seq + ", '" + p.getProductName() + "', " + p.getPrice() + ", " + p.getQuantity() + "," + p.getQuantity() + " , '" + 0 + "','" + systemDate + "' ,'" + systemDate + "')";
 
             System.out.println(sql);
             stmt.executeUpdate(sql);
@@ -84,8 +85,8 @@ public class ProductDao {
             while (rset.next()) {
                 Product p = new Product();
 
-                p.setProductid(rset.getInt(1));
-                p.setProductname(rset.getString(2));
+                p.setProductId(rset.getInt(1));
+                p.setProductName(rset.getString(2));
                 p.setPrice(rset.getInt(3));
                 p.setQuantity(rset.getInt(4));
 
@@ -108,7 +109,7 @@ public class ProductDao {
             stmt = conn.createStatement();
             LocalDateTime systemDate = LocalDateTime.now();
 
-            String sql = "UPDATE product SET product_name  = '" + p.getProductname() + "', price = " + p.getPrice()
+            String sql = "UPDATE product SET product_name  = '" + p.getProductName() + "', price = " + p.getPrice()
                     + ", quantity = " + p.getQuantity() + ",purchases = " + p.getQuantity()
                     + ", delete_flag = '" + 0 + "' ,create_date = '" + systemDate + "' ,update_date = '" + systemDate + "'WHERE product_id = " + p.getProductId();
 
@@ -154,8 +155,8 @@ public class ProductDao {
 
             while (rset.next()) {
 
-                p.setProductid(rset.getInt(1));
-                p.setProductname(rset.getString(2));
+                p.setProductId(rset.getInt(1));
+                p.setProductName(rset.getString(2));
                 p.setPrice(rset.getInt(3));
                 p.setQuantity(rset.getInt(4));
 
@@ -169,31 +170,32 @@ public class ProductDao {
 
     }
 
-    public void insertOrderInfo(Product o) {
+    public void insertOrderInfo(List<Order> orderList) {
 
         try {
             conn = DriverManager.getConnection(url, user, password);
             stmt = conn.createStatement();
-            conn = DriverManager.getConnection(url, user, password);
-            stmt = conn.createStatement();
-            
-                String getSql = "SELECT NEXTVAL('seq_order_id')";
+
+            String getSql = "SELECT NEXTVAL('seq_order_id')";
             rset = stmt.executeQuery(getSql);
-
             int seq = 0;
-        if (rset.next()) {
-            seq = rset.getInt(1);
-        }
+            if (rset.next()) {
+                seq = rset.getInt(1);
+            }
 
-            int total_amount = (int) (o.getQuantity() * o.getPrice());
+            String orderNo = "O" + String.valueOf(seq);
 
             LocalDateTime systemDate = LocalDateTime.now();
 
-            String sql = "INSERT INTO orders(order_id,product_id,product_name, price, quantity,total_amount,create_date,update_date) \n"
-                    + "VALUES ("+seq+"," + o.getProductId() + ", '" + o.getProductname() + "', " + o.getPrice() + ", " + o.getQuantity() + "," + total_amount + ",'" + systemDate + "' ,'" + systemDate + "')";
+            for (Order o : orderList) {
 
-            System.out.println(sql);
-            stmt.executeUpdate(sql);
+                int total_amount = (int) (o.getQuantity() * o.getPrice());
+                String sql = "INSERT INTO orders(order_id,product_id,product_name, price, quantity,total_amount,create_date,update_date) \n"
+                        + "VALUES (" + seq + "," + o.getProductId() + ", '" + o.getProductName() + "', " + o.getPrice() + ", " + o.getQuantity() + "," + total_amount + ",'" + systemDate + "' ,'" + systemDate + "')";
+
+                System.out.println(sql);
+                stmt.executeUpdate(sql);
+            }
 
             stmt.close();
             conn.close();
@@ -204,28 +206,29 @@ public class ProductDao {
         }
     }
 
+    public List<Order> getOrderInfoList() {
 
-    public List<Product> getOrderInfoList() {
-
-        List<Product> list = new ArrayList<>();
+        List<Order> list = new ArrayList<>();
 
         try {
             conn = DriverManager.getConnection(url, user, password);
 
             stmt = conn.createStatement();
 
-            String sql = "select * from orders order by order_id asc";
+            String sql = "select * from orders order by id asc";
 
             rset = stmt.executeQuery(sql);
 
-            if (rset.next()) {
-                Product o = new Product();
-                o.setOrderId(rset.getInt("order_id"));
-                o.setProductid(rset.getInt("product_id"));
-                o.setProductname(rset.getString("product_name"));
-                o.setPrice(rset.getInt("price"));
-                o.setQuantity(rset.getInt("quantity"));
-                o.setTotalAmount(rset.getInt("total_amount"));
+           while (rset.next()) {
+                Order o = new Order();
+                o.setOrderId(rset.getInt(2));
+                o.setProductId(rset.getInt(3));
+                o.setProductName(rset.getString(4));
+                o.setPrice(rset.getInt(5));
+                o.setQuantity(rset.getInt(6));
+                o.setTotalAmount(rset.getInt(7));
+                o.setCreate_date(rset.getTimestamp(8));
+                o.setUpdate_date(rset.getTimestamp(9));
 
                 list.add(o);
             }

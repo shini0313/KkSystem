@@ -1,15 +1,17 @@
-package kksystem.service;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package kksystem.service;
+
+import java.sql.Timestamp;
+
 /**
  *
  * @author shini
  */
-public class Product {
+public class Order {
 
     // 商品ID
     private int productId;
@@ -17,15 +19,27 @@ public class Product {
     // オーダーID
     private int orderId;
 
+    //商品名
     private String productName;
 
+    // 単価
     private float price;
 
+    //個数
     private int quantity;
 
+    //総価格
     private int totalAmount;
 
+    //在庫
     private int purchases;
+
+    //登録時間
+    private Timestamp create_date;
+
+    //更新時間
+    private Timestamp update_date;
+
 
     public int getProductId() {
         return productId;
@@ -83,4 +97,20 @@ public class Product {
         this.purchases = purchases;
     }
 
+    public Timestamp getCreate_date() {
+        return create_date;
+    }
+
+    public void setCreate_date(Timestamp create_date) {
+        this.create_date = create_date;
+    }
+
+    public Timestamp getUpdate_date() {
+        return update_date;
+    }
+
+    public void setUpdate_date(Timestamp update_date) {
+        this.update_date = update_date;
+    }
+   
 }
