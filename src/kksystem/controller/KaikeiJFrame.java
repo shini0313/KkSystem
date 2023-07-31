@@ -8,8 +8,8 @@ package kksystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import kksystem.service.Order;
-import kksystem.service.Product;
+import kksystem.obj.Order;
+import kksystem.obj.Product;
 import kksystem.service.ProductService;
 
 /**

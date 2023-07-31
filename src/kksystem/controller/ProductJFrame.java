@@ -1,7 +1,7 @@
 package kksystem.controller;
 
 import java.util.List;
-import kksystem.service.Product;
+import kksystem.obj.Product;
 import javax.swing.table.DefaultTableModel;
 import kksystem.service.ProductService;
 

@@ -1,4 +1,4 @@
-package kksystem.service;
+package kksystem.obj;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

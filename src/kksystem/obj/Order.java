@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kksystem.service;
+package kksystem.obj;
 
 import java.sql.Timestamp;
 
@@ -39,6 +39,10 @@ public class Order {
 
     //更新時間
     private Timestamp update_date;
+
+    private Timestamp startTime;
+
+    private Timestamp endTime;
 
 
     public int getProductId() {
@@ -112,5 +116,21 @@ public class Order {
     public void setUpdate_date(Timestamp update_date) {
         this.update_date = update_date;
     }
-   
+    
+    public Timestamp getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
+    }
+
 }

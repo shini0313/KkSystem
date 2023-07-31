@@ -5,13 +5,14 @@
  */
 package kksystem.dao;
 
-import kksystem.service.Product;
+import kksystem.obj.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
 import kksystem.controller.ProductJFrame;
-import kksystem.service.Order;
+import kksystem.obj.Order;
+import kksystem.obj.Revenue;
 
 /**
  *
@@ -219,7 +221,7 @@ public class ProductDao {
 
             rset = stmt.executeQuery(sql);
 
-           while (rset.next()) {
+            while (rset.next()) {
                 Order o = new Order();
                 o.setOrderId(rset.getInt(2));
                 o.setProductId(rset.getInt(3));
@@ -240,4 +242,32 @@ public class ProductDao {
         return list;
 
     }
+
+    public List<Revenue> getOrderInfoListDay(String startTime, String endTime) {
+        List<Revenue> list = new ArrayList<>();
+
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+            stmt = conn.createStatement();
+
+            String sql = "SELECT DATE_TRUNC('day', create_date) AS order_date, SUM(total_amount) AS total_amount_sum FROM orders "
+                    + "WHERE create_date BETWEEN '" + startTime + "' AND '" + endTime + "'  GROUP BY DATE_TRUNC('day', create_date)";
+
+            System.out.println(sql);
+            rset = stmt.executeQuery(sql);
+
+            while (rset.next()) {
+                Revenue r = new Revenue();
+                r.setOrderDate(rset.getString(1));
+                r.setTotalAmountSum(rset.getInt(2));
+
+                list.add(r);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
 }

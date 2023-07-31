@@ -5,8 +5,11 @@
  */
 package kksystem.service;
 
+import kksystem.obj.Order;
+import kksystem.obj.Product;
 import java.util.List;
 import kksystem.dao.ProductDao;
+import kksystem.obj.Revenue;
 
 /**
  *
@@ -56,15 +59,15 @@ public class ProductService {
 
     }
 
-    public void insertOrderInfo(List<Order> orderList ) {
+    public void insertOrderInfo(List<Order> orderList) {
 
         ProductDao productDao = new ProductDao();
 
         productDao.insertOrderInfo(orderList);
 
     }
-    
-      public List<Order> getOrderInfoList() {
+
+    public List<Order> getOrderInfoList() {
 
         ProductDao orderDao = new ProductDao();
 
@@ -73,6 +76,15 @@ public class ProductService {
         return list;
     }
 
-   
+   public List<Revenue> getOrderInfoListDay(String startTime, String endTime) {
+       
+    ProductDao orderDao = new ProductDao();
+    
+    List<Revenue> list = orderDao.getOrderInfoListDay(startTime, endTime);
+    
+    return list;
+    
+}
+
 
 }
