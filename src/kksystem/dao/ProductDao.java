@@ -269,5 +269,38 @@ public class ProductDao {
 
         return list;
     }
+    public List<Order> getRevenueInfoList(String startTime, String endTime) {
+        List<Order> list = new ArrayList<>();
+
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+            stmt = conn.createStatement();
+
+            String sql = "SELECT * FROM orders "
+                   + "WHERE create_date BETWEEN '" + startTime + "' AND '" + endTime + "' "
+                   + "ORDER BY id ASC";
+
+            System.out.println(sql);
+            rset = stmt.executeQuery(sql);
+
+            while (rset.next()) {
+                Order r = new Order();
+                r.setOrderId(rset.getInt(2));
+                r.setProductId(rset.getInt(3));
+                r.setProductName(rset.getString(4));
+                r.setPrice(rset.getInt(5));
+                r.setQuantity(rset.getInt(6));
+                r.setTotalAmount(rset.getInt(7));
+                r.setCreate_date(rset.getTimestamp(8));
+                r.setUpdate_date(rset.getTimestamp(9));
+
+                list.add(r);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
 
 }

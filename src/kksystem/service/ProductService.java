@@ -85,6 +85,14 @@ public class ProductService {
     return list;
     
 }
-
+  public List<Order> getRevenueInfoList(String startTime, String endTime) {
+       
+    ProductDao orderDao = new ProductDao();
+    
+    List<Order> list = orderDao.getRevenueInfoList(startTime, endTime);
+    
+    return list;
+    
+}
 
 }
