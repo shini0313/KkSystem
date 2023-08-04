@@ -43,6 +43,10 @@ public class Order {
     private Timestamp startTime;
 
     private Timestamp endTime;
+    
+      private String status;
+
+
 
 
     public int getProductId() {
@@ -133,4 +137,11 @@ public class Order {
         this.endTime = endTime;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

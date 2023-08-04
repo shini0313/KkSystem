@@ -41,6 +41,7 @@ public class ProductService {
         productDao.updateProductInfo(kk);
 
     }
+    
 
     public void deleteProductInfo(Product kk) {
 
@@ -94,5 +95,13 @@ public class ProductService {
     return list;
     
 }
+  
+    public void updateOrderInfo(Order o) {
+
+        ProductDao productDao = new ProductDao();
+
+        productDao.updateOrderInfo(o);
+
+    }
 
 }

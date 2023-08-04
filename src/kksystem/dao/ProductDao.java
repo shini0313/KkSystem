@@ -138,10 +138,6 @@ public class ProductDao {
         }
     }
 
-    public void updateSeisekiData(JTextField jTextField2, JTextField jTextField3, JTextField jTextField4, JTextField jTextField5, JTextField jTextField6) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public Product getProductInfo(long productId) {
 
         Product p = new Product();
@@ -269,6 +265,7 @@ public class ProductDao {
 
         return list;
     }
+
     public List<Order> getRevenueInfoList(String startTime, String endTime) {
         List<Order> list = new ArrayList<>();
 
@@ -277,8 +274,8 @@ public class ProductDao {
             stmt = conn.createStatement();
 
             String sql = "SELECT * FROM orders "
-                   + "WHERE create_date BETWEEN '" + startTime + "' AND '" + endTime + "' "
-                   + "ORDER BY id ASC";
+                    + "WHERE create_date BETWEEN '" + startTime + "' AND '" + endTime + "' "
+                    + "ORDER BY id ASC";
 
             System.out.println(sql);
             rset = stmt.executeQuery(sql);
@@ -303,4 +300,21 @@ public class ProductDao {
         return list;
     }
 
+    public void updateOrderInfo(Order o) {
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+
+            stmt = conn.createStatement();
+           
+
+            String sql = "UPDATE orders SET  status = '" + 0 + "'WHERE order_id ="+ o.getOrderId();
+
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
 }

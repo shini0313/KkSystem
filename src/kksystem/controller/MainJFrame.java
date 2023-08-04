@@ -12,7 +12,7 @@ package kksystem.controller;
 public class MainJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form 主画面
+     * Creates new form メイン画面
      */
     public MainJFrame() {
         initComponents();
@@ -56,7 +56,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("　　　　　　　　　　　　　　　　　　　主画面");
+        jLabel1.setText("　　　　　　　　　　　　　　　　　メイン画面");
 
         jButton4.setText("オーダー画面");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
