@@ -227,6 +227,7 @@ public class ProductDao {
                 o.setTotalAmount(rset.getInt(7));
                 o.setCreate_date(rset.getTimestamp(8));
                 o.setUpdate_date(rset.getTimestamp(9));
+                o.setStatus(rset.getString(10));
 
                 list.add(o);
             }
@@ -246,8 +247,9 @@ public class ProductDao {
             conn = DriverManager.getConnection(url, user, password);
             stmt = conn.createStatement();
 
-            String sql = "SELECT DATE_TRUNC('day', create_date) AS order_date, SUM(total_amount) AS total_amount_sum FROM orders "
-                    + "WHERE create_date BETWEEN '" + startTime + "' AND '" + endTime + "'  GROUP BY DATE_TRUNC('day', create_date)";
+            String sql = "SELECT DATE_TRUNC('day', create_date) AS order_date, SUM(total_amount) AS total_amount_sum " + "FROM orders "
+                    + "WHERE create_date BETWEEN '" + startTime + "' AND '" + endTime + "' " + "AND status = '1' "
+                    + "GROUP BY DATE_TRUNC('day', create_date)";
 
             System.out.println(sql);
             rset = stmt.executeQuery(sql);
@@ -290,6 +292,7 @@ public class ProductDao {
                 r.setTotalAmount(rset.getInt(7));
                 r.setCreate_date(rset.getTimestamp(8));
                 r.setUpdate_date(rset.getTimestamp(9));
+                r.setStatus(rset.getString(10));
 
                 list.add(r);
             }
@@ -305,9 +308,8 @@ public class ProductDao {
             conn = DriverManager.getConnection(url, user, password);
 
             stmt = conn.createStatement();
-           
 
-            String sql = "UPDATE orders SET  status = '" + 0 + "'WHERE order_id ="+ o.getOrderId();
+            String sql = "UPDATE orders SET status = '0' WHERE order_id = '" + o.getOrderId() + "'";
 
             System.out.println(sql);
             stmt.executeUpdate(sql);

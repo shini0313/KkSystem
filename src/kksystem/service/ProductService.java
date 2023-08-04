@@ -41,7 +41,6 @@ public class ProductService {
         productDao.updateProductInfo(kk);
 
     }
-    
 
     public void deleteProductInfo(Product kk) {
 
@@ -77,25 +76,26 @@ public class ProductService {
         return list;
     }
 
-   public List<Revenue> getOrderInfoListDay(String startTime, String endTime) {
-       
-    ProductDao orderDao = new ProductDao();
-    
-    List<Revenue> list = orderDao.getOrderInfoListDay(startTime, endTime);
-    
-    return list;
-    
-}
-  public List<Order> getRevenueInfoList(String startTime, String endTime) {
-       
-    ProductDao orderDao = new ProductDao();
-    
-    List<Order> list = orderDao.getRevenueInfoList(startTime, endTime);
-    
-    return list;
-    
-}
-  
+    public List<Revenue> getOrderInfoListDay(String startTime, String endTime) {
+
+        ProductDao orderDao = new ProductDao();
+
+        List<Revenue> list = orderDao.getOrderInfoListDay(startTime, endTime);
+
+        return list;
+
+    }
+
+    public List<Order> getRevenueInfoList(String startTime, String endTime) {
+
+        ProductDao orderDao = new ProductDao();
+
+        List<Order> list = orderDao.getRevenueInfoList(startTime, endTime);
+
+        return list;
+
+    }
+
     public void updateOrderInfo(Order o) {
 
         ProductDao productDao = new ProductDao();

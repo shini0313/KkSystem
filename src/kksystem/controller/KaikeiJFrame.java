@@ -344,9 +344,9 @@ public class KaikeiJFrame extends javax.swing.JFrame {
         List<Order> orderList = getOrderList();
 
         ProductService productService = new ProductService();
-        
-            productService.insertOrderInfo(orderList);
-        
+
+        productService.insertOrderInfo(orderList);
+
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
@@ -398,7 +398,7 @@ public class KaikeiJFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;

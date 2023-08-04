@@ -24,11 +24,8 @@ public class RevenueJFrame extends javax.swing.JFrame {
      */
     public RevenueJFrame() {
         initComponents();
-       
 
     }
-    
-    
 
     public void getOrderInfo() {
         String startTime = jTextField1.getText();
@@ -38,11 +35,15 @@ public class RevenueJFrame extends javax.swing.JFrame {
         DefaultTableModel defaultModel = (DefaultTableModel) jTable1.getModel();
 
         defaultModel.setRowCount(0);
-
         for (Order o : list) {
+            if (o.getStatus().equals("1")) {
+                defaultModel.addRow(new Object[]{
+                    o.getOrderId(), o.getProductId(), o.getProductName(),
+                    o.getPrice(), o.getQuantity(), o.getTotalAmount(),
+                    o.getCreate_date(), o.getUpdate_date(), o.getStatus()
+                });
 
-            defaultModel.addRow(new Object[]{o.getOrderId(), o.getProductId(), o.getProductName(), o.getPrice(), o.getQuantity(), o.getTotalAmount(), o.getCreate_date(), o.getUpdate_date()});
-
+            }
         }
 
     }
@@ -86,11 +87,11 @@ public class RevenueJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "オーダーID", "商品ID", "商品名", "単価", "商品数", "総価格", "登録時間", "更新時間"
+                "オーダーID", "商品ID", "商品名", "単価", "商品数", "総価格", "登録時間", "更新時間", "状態"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,6 +99,9 @@ public class RevenueJFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(8).setHeaderValue("状態");
+        }
 
         jButton4.setText("検索");
         jButton4.addActionListener(new java.awt.event.ActionListener() {

@@ -34,6 +34,4 @@ public class Revenue {
         this.orderDate = orderDate;
     }
 
- 
-
 }

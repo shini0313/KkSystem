@@ -26,8 +26,7 @@ public class Product {
     private int totalAmount;
 
     private int purchases;
-    
-  
+
     public int getProductId() {
         return productId;
     }
