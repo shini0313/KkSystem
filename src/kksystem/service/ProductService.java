@@ -85,6 +85,15 @@ public class ProductService {
         return list;
 
     }
+      public List<Revenue> getOrderInfoListToday() {
+
+        ProductDao orderDao = new ProductDao();
+
+        List<Revenue> list = orderDao.getOrderInfoListToday();
+
+        return list;
+
+    }
 
     public List<Order> getRevenueInfoList(String startTime, String endTime) {
 
@@ -95,6 +104,16 @@ public class ProductService {
         return list;
 
     }
+      public List<Order> getRevenueInfoListToday() {
+
+        ProductDao orderDao = new ProductDao();
+
+        List<Order> list = orderDao.getRevenueInfoListToday();
+
+        return list;
+
+    }
+    
 
     public void updateOrderInfo(Order o) {
 

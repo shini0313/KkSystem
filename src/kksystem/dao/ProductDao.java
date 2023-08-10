@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -228,6 +229,12 @@ public class ProductDao {
                 o.setCreate_date(rset.getTimestamp(8));
                 o.setUpdate_date(rset.getTimestamp(9));
                 o.setStatus(rset.getString(10));
+                int statusValue = rset.getInt(10);
+                if (statusValue == 1) {
+                    o.setStatus("購入");
+                } else if (statusValue == 0) {
+                    o.setStatus("キャンセル");
+                }
 
                 list.add(o);
             }
@@ -267,6 +274,36 @@ public class ProductDao {
 
         return list;
     }
+   public List<Revenue> getOrderInfoListToday() {
+    List<Revenue> list = new ArrayList<>();
+
+    try {
+        conn = DriverManager.getConnection(url, user, password);
+        stmt = conn.createStatement();
+
+        String sql = "SELECT DATE_TRUNC('day', create_date) AS order_date, SUM(total_amount) AS total_amount_sum " +
+                     "FROM orders " +
+                     "WHERE create_date >= CURRENT_DATE " +
+                     "AND create_date < CURRENT_DATE + INTERVAL '1 day' " +
+                     "AND status = '1' " +
+                     "GROUP BY DATE_TRUNC('day', create_date)";
+
+        System.out.println(sql);
+        rset = stmt.executeQuery(sql);
+
+        while (rset.next()) {
+            Revenue r = new Revenue();
+            r.setOrderDate(rset.getString(1));
+            r.setTotalAmountSum(rset.getInt(2));
+
+            list.add(r);
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return list;
+}
 
     public List<Order> getRevenueInfoList(String startTime, String endTime) {
         List<Order> list = new ArrayList<>();
@@ -302,6 +339,45 @@ public class ProductDao {
 
         return list;
     }
+     public List<Order> getRevenueInfoListToday() {
+        List<Order> list = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+        LocalDateTime startTime = today.atStartOfDay();
+        LocalDateTime endTime = today.plusDays(1).atStartOfDay(); 
+        
+        try {
+            conn = DriverManager.getConnection(url, user, password);
+            stmt = conn.createStatement();
+
+            String sql = "SELECT * FROM orders " +
+                         "WHERE create_date >= '" + startTime + "' AND create_date < '" + endTime + "' " +
+                         "ORDER BY id ASC";
+
+            System.out.println(sql);
+            rset = stmt.executeQuery(sql);
+
+            while (rset.next()) {
+                Order r = new Order();
+                r.setOrderId(rset.getInt(2));
+                r.setProductId(rset.getInt(3));
+                r.setProductName(rset.getString(4));
+                r.setPrice(rset.getInt(5));
+                r.setQuantity(rset.getInt(6));
+                r.setTotalAmount(rset.getInt(7));
+                r.setCreate_date(rset.getTimestamp(8));
+                r.setUpdate_date(rset.getTimestamp(9));
+                r.setStatus(rset.getString(10));
+
+                list.add(r);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
 
     public void updateOrderInfo(Order o) {
         try {
